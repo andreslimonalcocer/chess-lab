@@ -1,0 +1,15 @@
+{
+ "clave": "bc2942162f08_8x8_N",
+ "variante": "Ajedrez clásico",
+ "piezas": [
+  "N"
+ ],
+ "nombres": [
+  "Caballo"
+ ],
+ "posiciones": 205496,
+ "ganadas": 0.0,
+ "media": null,
+ "maximo": null,
+ "segundos": 0
+}

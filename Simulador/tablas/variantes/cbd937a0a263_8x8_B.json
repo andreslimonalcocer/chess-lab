@@ -1,0 +1,15 @@
+{
+ "clave": "cbd937a0a263_8x8_B",
+ "variante": "Ajedrez clásico",
+ "piezas": [
+  "B"
+ ],
+ "nombres": [
+  "Alfil"
+ ],
+ "posiciones": 193284,
+ "ganadas": 0.0,
+ "media": null,
+ "maximo": null,
+ "segundos": 0
+}

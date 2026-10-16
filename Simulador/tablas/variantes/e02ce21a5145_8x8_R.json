@@ -1,0 +1,15 @@
+{
+ "clave": "e02ce21a5145_8x8_R",
+ "variante": "Ajedrez clásico",
+ "piezas": [
+  "R"
+ ],
+ "nombres": [
+  "Torre"
+ ],
+ "posiciones": 175168,
+ "ganadas": 1.0,
+ "media": 9.864838326635002,
+ "maximo": 16,
+ "segundos": 2
+}

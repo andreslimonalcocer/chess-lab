@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+
+# Resultados de simulaciones, calibraciones y bitácoras (se regeneran con los scripts de Simulador/)
+*.jsonl
+*.log
+Simulador/texel_informe.txt
+
+# Tablas de finales de Rey y DOS piezas del 11×11 (KBNK.dtm, KRpRK.dtm...): 2.3 GB, varias de más de 100 MB
+# (el límite de GitHub por archivo). Se construyen con Simulador/pasos/tablas_dos_piezas.sh.
+# Las de una pieza y las de las otras variantes sí se suben (pesan poco comprimidas).
+Simulador/tablas/K[BNR]*[BNR]K.dtm
+
+# Datos personales del jugador
+Juego/perfil.json
+Juego/ajustes.json
+Juego/mis_problemas.json
+Juego/problemas_revisados.json
+Juego/partidas/
+Juego/bitacoras/
+Juego/simulaciones/
+Juego/laboratorio/
+Juego/disenos/
+
+# Se generan solos al abrir el juego
+Juego/sonidos/
+
+# Paquetes y descargas del instalador
+Instalador/descargas/
+dist/
+Ajedrez_*.zip
+
+# Temporales
+*.tmp
+*.part
+
+# Propuestas de diseño (hojas para elegir piezas; lo elegido ya está en Piezas/)
+docs/propuestas/

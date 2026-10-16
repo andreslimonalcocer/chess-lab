@@ -1,0 +1,393 @@
+[
+ {
+  "pieza": "Q",
+  "nombre": "Dama",
+  "inicio": {
+   "e1": 11
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 8.036003089529183,
+  "maximo": 14,
+  "posiciones": 1191120,
+  "segundos": 50
+ },
+ {
+  "pieza": "Q'",
+  "nombre": "Dama promocionada",
+  "inicio": {
+   "e1": 1
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 2.4489246924606034,
+  "maximo": 6,
+  "posiciones": 1110752,
+  "segundos": 79
+ },
+ {
+  "pieza": "R",
+  "nombre": "Torre",
+  "inicio": {
+   "a1": 16,
+   "k1": 16
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 14.294751685541797,
+  "maximo": 23,
+  "posiciones": 1361580,
+  "segundos": 43
+ },
+ {
+  "pieza": "R'",
+  "nombre": "Torre promocionada",
+  "inicio": {
+   "a1": 10,
+   "k1": 10
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 8.145586548263092,
+  "maximo": 14,
+  "posiciones": 1251764,
+  "segundos": 79
+ },
+ {
+  "pieza": "B",
+  "nombre": "Alfil",
+  "inicio": {
+   "c1": null,
+   "j1": null
+  },
+  "ganadas": 0.0,
+  "ganadas50": 0.0,
+  "media": null,
+  "maximo": null,
+  "posiciones": 1457460,
+  "segundos": 44
+ },
+ {
+  "pieza": "B'",
+  "nombre": "Alfil promocionado",
+  "inicio": {
+   "c1": 13,
+   "j1": 13
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 9.511828125896814,
+  "maximo": 15,
+  "posiciones": 1324132,
+  "segundos": 58
+ },
+ {
+  "pieza": "N",
+  "nombre": "Caballo",
+  "inicio": {
+   "b1": null,
+   "i1": null
+  },
+  "ganadas": 0.00010297489038593904,
+  "ganadas50": 0.00010297489038593904,
+  "media": 1.0,
+  "maximo": 1,
+  "posiciones": 1476088,
+  "segundos": 56
+ },
+ {
+  "pieza": "N'",
+  "nombre": "Caballo promocionado",
+  "inicio": {
+   "b1": 22,
+   "i1": 22
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 18.69740577665199,
+  "maximo": 27,
+  "posiciones": 1411752,
+  "segundos": 68
+ },
+ {
+  "pieza": "CA",
+  "nombre": "Arzobispo",
+  "inicio": {
+   "d1": 23
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 19.861976110316313,
+  "maximo": 26,
+  "posiciones": 1400772,
+  "segundos": 71
+ },
+ {
+  "pieza": "CA'",
+  "nombre": "Arzobispo promocionado",
+  "inicio": {
+   "d1": 23
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 19.81417654012949,
+  "maximo": 26,
+  "posiciones": 1377092,
+  "segundos": 72
+ },
+ {
+  "pieza": "CH",
+  "nombre": "Canciller",
+  "inicio": {
+   "h1": 15
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 10.880813532041552,
+  "maximo": 16,
+  "posiciones": 1351932,
+  "segundos": 74
+ },
+ {
+  "pieza": "CH'",
+  "nombre": "Canciller promocionado",
+  "inicio": {
+   "h1": 12
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 9.843548140354601,
+  "maximo": 16,
+  "posiciones": 1281212,
+  "segundos": 57
+ },
+ {
+  "pieza": "CE",
+  "nombre": "Catapulta",
+  "inicio": {
+   "g1": 19
+  },
+  "ganadas": 0.9997137170433786,
+  "ganadas50": 0.9997137170433786,
+  "media": 14.617830990140865,
+  "maximo": 21,
+  "posiciones": 1467080,
+  "segundos": 64
+ },
+ {
+  "pieza": "CE'",
+  "nombre": "Catapulta promocionada",
+  "inicio": {
+   "g1": 19
+  },
+  "ganadas": 0.9997109905390299,
+  "ganadas50": 0.9997109905390299,
+  "media": 14.618061767721947,
+  "maximo": 21,
+  "posiciones": 1467080,
+  "segundos": 80
+ },
+ {
+  "pieza": "G",
+  "nombre": "Guardián",
+  "inicio": {
+   "e2": 36,
+   "f2": 36,
+   "g2": 36
+  },
+  "ganadas": 0.9223469720036627,
+  "ganadas50": 0.9223469720036627,
+  "media": 22.867909739541606,
+  "maximo": 48,
+  "posiciones": 1437188,
+  "segundos": 97
+ },
+ {
+  "pieza": "G'",
+  "nombre": "Guardián promocionado",
+  "inicio": {
+   "e2": 20,
+   "f2": 20,
+   "g2": 20
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 15.985407167558757,
+  "maximo": 22,
+  "posiciones": 1452768,
+  "segundos": 67
+ },
+ {
+  "pieza": "P",
+  "nombre": "Peón",
+  "inicio": {
+   "a2": null,
+   "b2": 57,
+   "c2": 54,
+   "d2": 53,
+   "h2": 53,
+   "i2": 54,
+   "j2": 57,
+   "k2": null
+  },
+  "ganadas": 0.7580601388664424,
+  "ganadas50": 0.7208285941678534,
+  "media": 37.17591080414644,
+  "maximo": 66,
+  "posiciones": 1311764,
+  "segundos": 80
+ },
+ {
+  "pieza": "P'",
+  "nombre": "Peón promocionado",
+  "inicio": {
+   "a2": 32,
+   "b2": 31,
+   "c2": 31,
+   "d2": 31,
+   "h2": 31,
+   "i2": 31,
+   "j2": 31,
+   "k2": 32
+  },
+  "ganadas": 1.0,
+  "ganadas50": 1.0,
+  "media": 27.108767538455567,
+  "maximo": 35,
+  "posiciones": 1391086,
+  "segundos": 31
+ },
+ {
+  "pieza": "B+B",
+  "nombre": "Rey, Alfil y Alfil",
+  "inicio": {
+   "c1 y j1": 23
+  },
+  "grupos": {
+   "mismo color": {
+    "posiciones": 38764828,
+    "ganadas": 0.0,
+    "media": null,
+    "maximo": null
+   },
+   "distinto color": {
+    "posiciones": 38196240,
+    "ganadas": 0.9999736099678921,
+    "media": 18.098093814432126,
+    "maximo": 26
+   }
+  },
+  "segundos": 236
+ },
+ {
+  "pieza": "N+N",
+  "nombre": "Rey, Caballo y Caballo",
+  "inicio": {
+   "b1 y i1": 17
+  },
+  "grupos": {
+   "todas": {
+    "posiciones": 78986048,
+    "ganadas": 0.9999802496764998,
+    "media": 11.688405449941007,
+    "maximo": 19
+   }
+  },
+  "segundos": 253
+ },
+ {
+  "pieza": "R+R",
+  "nombre": "Rey, Torre y Torre",
+  "inicio": {
+   "a1 y k1": 2
+  },
+  "grupos": {
+   "todas": {
+    "posiciones": 67094940,
+    "ganadas": 1.0,
+    "media": 3.7913582156866075,
+    "maximo": 9
+   }
+  },
+  "segundos": 328
+ },
+ {
+  "pieza": "B+N",
+  "nombre": "Rey, Alfil y Caballo",
+  "inicio": {
+   "c1 y b1": 21,
+   "c1 y i1": 20,
+   "j1 y b1": 21,
+   "j1 y i1": 21
+  },
+  "grupos": {
+   "Alfil de casillas oscuras": {
+    "posiciones": 77616840,
+    "ganadas": 0.9998823966551589,
+    "media": 16.04766108811454,
+    "maximo": 24
+   },
+   "Alfil de casillas claras": {
+    "posiciones": 78814936,
+    "ganadas": 0.9998951975295647,
+    "media": 16.125529517321603,
+    "maximo": 24
+   }
+  },
+  "segundos": 462
+ },
+ {
+  "pieza": "N'+N",
+  "nombre": "Rey, Caballo promocionado y Caballo",
+  "inicio": {
+   "b1 y i1": 13
+  },
+  "grupos": {
+   "todas": {
+    "posiciones": 151183240,
+    "ganadas": 0.999999894168163,
+    "media": 8.44562872928282,
+    "maximo": 25
+   }
+  },
+  "segundos": 509
+ },
+ {
+  "pieza": "B'+B",
+  "nombre": "Rey, Alfil promocionado y Alfil",
+  "inicio": {
+   "c1 y j1": 8
+  },
+  "grupos": {
+   "Alfil de casillas oscuras": {
+    "posiciones": 69408356,
+    "ganadas": 1.0,
+    "media": 6.095975475921084,
+    "maximo": 11
+   },
+   "Alfil de casillas claras": {
+    "posiciones": 70493092,
+    "ganadas": 1.0,
+    "media": 6.03494350907462,
+    "maximo": 11
+   }
+  },
+  "segundos": 619
+ },
+ {
+  "pieza": "R'+R",
+  "nombre": "Rey, Torre promocionada y Torre",
+  "inicio": {
+   "a1 y k1": 2
+  },
+  "grupos": {
+   "todas": {
+    "posiciones": 123373104,
+    "ganadas": 1.0,
+    "media": 3.201281439753676,
+    "maximo": 7
+   }
+  },
+  "segundos": 665
+ }
+]

@@ -1,0 +1,261 @@
+SIMULADOR DE AUTOJUEGO - AJEDREZ EXTENDIDO (11×11)
+======================================
+
+Archivos
+  motor.py           Reglas completas del reglamento oficial (movimientos, cadenas de la
+                     Catapulta, empuje, bloqueo de jaque del Guardián, promociones, fin de partida).
+  busqueda.py        Rival por computadora: búsqueda alfa-beta con profundización iterativa,
+                     búsqueda de quietud (resuelve las capturas pendientes hasta el final),
+                     tabla de transposición y jugadas asesinas.
+                     Valora las piezas de forma dinámica: cada una tiene un valor de medio juego
+                     y otro de final (VALOR_MEDIO y VALOR_FINAL), que se mezclan según el material
+                     que queda. Los puntos del reglamento (desempate 7.6) son aparte: VAL en motor.py.
+  simular.py         Hace jugar a la computadora contra sí misma y guarda cada partida.
+  reporte.py         Resume los resultados: motivo de finalización, jugadas hasta el mate,
+                     pieza que da el mate, promociones, ventaja de las blancas y duración.
+  pruebas_reglas.py  Comprueba que el motor reproduce los diagramas del reglamento.
+  notacion.py        Notación de las jugadas (Apéndice C), compartida con el juego.
+  bitacora.py        Formato de las bitácoras (todas las jugadas de una partida).
+  comparar.py        Partidas entre dos configuraciones de la computadora (o dos versiones del motor):
+                     diferencia de fuerza en Elo con su margen de error.
+  calibrar_elo.py    Calibra en Elo una escalera de niveles y guarda Juego/niveles_elo.json, con lo
+                     que el juego ofrece la dificultad en Elo.
+  motor_ia.py        Proceso de una computadora para comparar.py y calibrar_elo.py.
+  validar_motor.sh   Las tres comparaciones que validan las mejoras del motor, en orden.
+  motores/           Copias de versiones anteriores del motor (para comparar).
+  validar_valores.py Mide el valor real de las piezas: movilidad (separando las casillas para
+                     mover y para capturar) y duelos con desequilibrio de material.
+  finales.py         Finales de Rey y pieza contra Rey: si cada pieza puede dar mate y en cuántas
+                     jugadas, con juego perfecto (tabla completa del final).
+
+Requisitos
+  Python 3.8 o superior. No necesita librerías adicionales.
+  Recomendado: PyPy 3 (https://www.pypy.org), que es entre 5 y 10 veces más rápido.
+
+Uso
+  python simular.py --profundidad 3 --partidas 50
+  python reporte.py resultados.jsonl
+
+  Con PyPy y varios núcleos:
+  pypy3 simular.py --profundidad 4 --partidas 100 --procesos 8 --salida prof4.jsonl
+  python reporte.py prof4.jsonl
+
+Opciones de simular.py
+  --profundidad N          Medias jugadas que la computadora analiza hacia adelante.
+                           Una media jugada es el movimiento de un solo bando:
+                           profundidad 4 = dos jugadas de cada lado.
+  --partidas N             Número de partidas a simular.
+  --procesos N             Partidas en paralelo; usa tantos como núcleos tenga tu procesador.
+  --tiempo S               Segundos máximos por jugada (0 = sin límite). Con límite, la
+                           computadora analiza tan profundo como alcance en ese tiempo,
+                           sin pasar de --profundidad.
+  --aperturas-aleatorias N Medias jugadas iniciales al azar para que las partidas varíen (4).
+  --max-jugadas N          Límite de jugadas por partida (200); se resuelve por puntos.
+  --semilla N              Semilla inicial. Si no se indica, continúa después de la mayor
+                           semilla del archivo de salida, así nunca se repiten partidas.
+  --salida ARCHIVO         Archivo de resultados (se agregan partidas, no se borra).
+  --bitacora ARCHIVO       (o --bitácora) Guarda todas las jugadas de cada partida, con la
+                           evaluación de la computadora y la profundidad alcanzada, una partida
+                           por línea. El juego de escritorio las reproduce a velocidad humana:
+                           Juego/jugar.sh --bitacora ARCHIVO [--partida N]. Formato: bitacora.py.
+
+Tiempo aproximado por partida (un núcleo, PyPy)
+  profundidad 2   ~10 segundos
+  profundidad 3   ~2 minutos
+  profundidad 4   ~10 a 20 minutos
+  profundidad 5   ~1 a 2 horas
+  Con Python normal, multiplica por 5 a 10. Los tiempos dependen del procesador.
+  Sugerencia: empieza con 10 partidas para medir el tiempo en tu equipo y luego
+  lanza la simulación completa con --procesos.
+
+Validación de los valores de las piezas (validar_valores.py)
+  pypy3 validar_valores.py movilidad
+      Casillas promedio de cada pieza, base y promocionada: las que solo puede mover, las que
+      solo puede capturar y las que sirven para ambas cosas (tablero vacío y 30% ocupado).
+  pypy3 validar_valores.py duelo CE N --partidas 100 --procesos 22 --profundidad 3
+      Un bando juega con la Catapulta y el otro con un Caballo en la misma casilla (g1/g11);
+      todo lo demás es igual. Cada apertura se juega con X en blancas y en negras.
+      Piezas: P G B N R CE CA CH Q; con apóstrofo, promocionada (B'); con +, varias (N+P).
+  pypy3 validar_valores.py lote --partidas 60 --procesos 22 --profundidad 2
+      Catorce duelos que comparan los valores actuales con los anteriores. --partidas es por
+      duelo: con 60 se juegan 14 × 60 = 840 partidas.
+  pypy3 validar_valores.py lote-final --partidas 60 --procesos 22 --profundidad 4
+      Catorce duelos de final, guardados en valores_finales.jsonl. Cada bando tiene Rey, dos
+      peones y un Guardián (blancas: Rf2, Pc4, Pi4, Gf3; negras, el giro de 180°: Rf10, Pi8,
+      Pc8, Gf9) y la pieza del duelo (d2 / h10). Comparan con los valores de final de la
+      computadora (VALOR_FINAL en busqueda.py). --sin-guardian quita los Guardianes; también
+      hay «final X Y» para un solo duelo. Por defecto juega la serie de validación (19 duelos que
+      no se usaron para ajustar los valores); --serie ajuste repite los 14 originales.
+      Cada resultado guarda con qué valores jugó la computadora (v1 fijos, v2 dinámicos, v3 final
+      revisado, v4 final ajustado) y el reporte los separa. Para archivos anteriores a esa marca:
+      python3 validar_valores.py reporte valores_dinamicos.jsonl --sin-marca v2
+  python3 validar_valores.py reporte valores.jsonl
+      Resumen (se puede consultar mientras corre). Para cada duelo indica si el resultado
+      concuerda con la diferencia de valores actual y con la anterior.
+  Las partidas que no terminan en mate cuentan como tablas, porque el desempate por puntos
+  depende de los mismos valores que se quieren medir. Los resultados se agregan al archivo, así
+  que puedes correr más partidas después para afinar.
+
+Finales de Rey y pieza contra Rey (finales.py)
+  pypy3 finales.py --procesos 9
+      Construye la tabla completa de cada final (todas las posiciones posibles) y calcula, con
+      juego perfecto de ambos bandos, si la pieza puede forzar el mate y en cuántas jugadas:
+      desde la posición inicial (Rey en f1, Rey negro en f11 y la pieza en su casilla de inicio),
+      el mate más largo y el porcentaje de posiciones ganadas (también dentro de 50 jugadas).
+      No depende de la habilidad de la computadora. Unos 2-5 minutos por pieza; las 18 formas
+      (base y promocionadas) con 9 procesos tardan unos 10 minutos. Resultados en finales.json.
+  pypy3 finales.py --piezas R "CE'" B
+      Solo algunas piezas (con apóstrofo, la promocionada).
+  No aplica la regla de material insuficiente (7.5), para ver si el mate es posible.
+
+Finales de las otras variantes (finales_variante.py)
+  pypy3 finales_variante.py clasico                 piezas solas (segundos en 8×8)
+  pypy3 finales_variante.py clasico B+B B+N         y pares (1-3 min en 8×8)
+  pypy3 finales_variante.py capablanca --pares      todos los pares (10×8: varias veces más lento)
+  pypy3 finales_variante.py "Mi variante"           una variante del Laboratorio
+      Tablas exactas con los movimientos definidos en cada variante (Juego/tablas_genericas.py), en
+      tablas/variantes/. Comprobado con la teoría del ajedrez clásico: mates más largos de Dama 10, Torre 16,
+      dos Alfiles 19 y Alfil y Caballo 33 jugadas. La computadora de esas variantes las usa sola.
+
+Finales de Rey y dos piezas contra Rey (finales_dos.py)
+  pypy3 finales_dos.py N+N            dos Caballos (~10 min, ~1 GB)
+  pypy3 finales_dos.py B+B            dos Alfiles (separa los de igual y distinto color de casilla)
+  pypy3 finales_dos.py R+R            dos Torres
+  pypy3 finales_dos.py "N'+N"         Caballo promocionado y Caballo (piezas distintas: ~20-40 min, ~1.5 GB)
+  pypy3 finales_dos.py "B'+B"  /  "R'+R"
+      Análisis retrógrado exacto (212 o 429 millones de posiciones) con las reglas del motor. Si el Rey
+      negro captura una pieza, usa la tabla de la pieza que queda (tablas/ de finales.py). Resumen en
+      finales.json («N+N», «R'+R», ...); --guardar guarda además la tabla completa en tablas/ (212 MB
+      con piezas iguales, 429 MB con distintas). Las guardadas las usa la computadora en sus partidas (Rey y
+      esas dos piezas contra Rey solo; se leen con mmap, así que los procesos comparten la memoria) y se
+      pueden practicar en «Finales». pasos/tablas_dos_piezas.sh construye y guarda las siete a la vez
+      (--excluir para saltar alguna).
+
+Fuerza de la computadora y dificultad en Elo
+  El motor genera las jugadas con tablas precalculadas (mismas reglas y mismo orden de jugadas que
+  antes) y la búsqueda usa movimiento nulo, ventana nula (PVS), extensión de jaques, historial de
+  jugadas y poda delta en la quietud (busqueda.MEJORAS). Searcher(temperatura=...) hace que los
+  niveles bajos se equivoquen de forma natural. busqueda.PESOS activa términos de evaluación
+  adicionales, apagados hasta validarlos: peones pasados, escudo del Rey, movilidad, y desde octubre
+  de 2026 rey (enroque y seguridad del Rey), desarrollo (apertura), atacadas (piezas propias
+  amenazadas) y derechos (derechos de promoción según la fase, también de peón a Guardián y de
+  Guardián, y el bono parcial cuando a un derecho le falta una captura). ./validar_terminos.sh los mide uno por uno contra el motor sin términos (200 partidas
+  cada uno a profundidad 3; PARTIDAS=... y PROCESOS=... para cambiarlo) y los tres nuevos juntos,
+  también con el mismo tiempo por jugada (atacadas hace la evaluación más lenta).
+  Desde v5 (VERSION_IA) están encendidos desarrollo, derechos y movilidad: juntos +177 Elo a
+  profundidad 3 y +104 con el mismo tiempo (validar_ddm*.jsonl). rey, escudo, atacadas y pasados
+  siguen apagados. Para medir contra el motor sin términos hay que apagarlos explícitamente:
+  pesos=movilidad:0/desarrollo:0/derechos:0.
+  Con temperatura, las jugadas candidatas se recalculan con una ventana de 8 × temperatura bajo la
+  mejor (busqueda.MARGEN_TEMPERATURA): las que quedan fuera tendrían probabilidad < 1/3000. Es unas
+  3 veces más rápido que la ventana completa (motores/v5_ventana_completa guarda esa versión).
+  1) ./validar_motor.sh                         ¿ayudan la búsqueda y los términos nuevos?
+  2) pypy3 calibrar_elo.py --procesos 22         niveles en Elo para el juego (1-2 horas)
+     Escalera v2 (9 niveles, cada uno contra los tres siguientes; resultados en calibracion_v2.jsonl).
+     calibracion.jsonl es de antes de corregir la temperatura (los niveles con imprecisión jugaban
+     jugadas malas casi al azar) y ya no se usa. El ajuste agrega una tabla virtual por enfrentamiento
+     para que un 40-0 no dé una diferencia infinita, y avisa si un nivel no supera al anterior.
+     pypy3 calibrar_elo.py --solo-ajuste         recalcula sin jugar, con lo ya jugado
+
+Otras variantes: clásico, Capablanca, gótico y las del Laboratorio (simular_variante.py)
+  pypy3 simular_variante.py partidas capablanca --partidas 40 --procesos 8 --profundidad 3
+      Autojuego con el motor genérico (Juego/generico.py): ventaja de las blancas, cómo terminan
+      las partidas, duración y promociones. La variante puede ser clasico, capablanca, gotico, el
+      nombre de una variante guardada en el Laboratorio o la ruta de su JSON.
+  pypy3 simular_variante.py duelo capablanca CA CH --partidas 60 --procesos 8
+      Pieza X en un bando y pieza Y en el otro, en la misma casilla de la primera fila (por
+      defecto, la de la pieza más valiosa; --columna para cambiarla). Con «+» se suman piezas (R+P).
+  python3 simular_variante.py reporte variantes.jsonl
+  --bitacora ARCHIVO guarda las jugadas para reproducirlas en el juego. El Laboratorio lo usa desde
+  su botón "Simular…".
+
+Problemas de mate para el juego (extraer_problemas.py)
+  pypy3 extraer_problemas.py [bitácoras o carpetas] [--max-mate 3] [--procesos 4] [--tiempo 30]
+      Busca en las bitácoras (por defecto: las del juego y las *bitacora*.jsonl de esta carpeta) las
+      posiciones donde la computadora vio un mate forzado, las comprueba con una búsqueda propia y
+      guarda las confirmadas en Juego/problemas.json (sin repetir). El juego también lo ejecuta
+      desde Problemas → "Buscar problemas en mis bitácoras".
+
+Mejoras inspiradas en los motores modernos (octubre de 2026)
+  SPRT en comparar.py
+      --sprt 0 15 juega hasta decidir, con 95 % de confianza, si el cambio mejora al menos 15 Elo (H1) o
+      no mejora (H0); --partidas es el máximo. Muestra el LLR de cada partida y sus límites (±2.94).
+      Si se corta sin decidir, la misma orden continúa con las partidas que ya hay en el archivo.
+  Mejoras de la búsqueda: busqueda.OPCIONES (v6: encendidas las ocho validadas, lmr_log apagada)
+      tt_persistente, aspiracion, lmr_log, futilidad, futilidad_inversa, razoring, poda_tardia, see,
+      contrajugada (descritas en busqueda.py). En comparar.py: opciones=see:1/aspiracion:1.
+      ./validar_busqueda_moderna.sh las prueba con SPRT y 1 s por jugada: primero todas juntas, luego
+      cada una. Con todas apagadas el motor es idéntico a v5 (mismas jugadas y nodos). En 10 posiciones
+      a profundidad 4, todas juntas analizan el 30 % de los nodos (see 37 %, poda_tardia 59 %).
+  Finales exactos
+      pypy3 finales.py --guardar-tablas --procesos 9     (unos 10-20 minutos; ~80 MB en tablas/)
+      Con las tablas, la computadora juega perfecto los finales de Rey y pieza contra Rey (mate más corto o
+      tablas seguras). Se usan solas si existen (OPCIONES['finales']); validar_busqueda_moderna.sh también
+      lo mide. Por ahora solo existe tablas/KQK.dtm (la de prueba).
+  Afinado Texel de la evaluación (afinar_texel.py)
+      Ajusta valores de las piezas (medio juego y final), centralización y avance de cada tipo de pieza y los
+      pesos de los términos para que la evaluación prediga los resultados de partidas reales. Necesita
+      bitácoras del Ajedrez Extendido (cuantas más, mejor):
+        pypy3 simular.py --profundidad 3 --partidas 1000 --procesos 22 --salida texel_p3.jsonl --bitacora texel_p3_bitacora.jsonl
+        pypy3 afinar_texel.py texel_p3_bitacora.jsonl
+      Escribe texel_parametros.json (comparar.py: parametros=texel_parametros.json) y un informe de cambios.
+  Pensar durante el turno del rival (juego, Ajedrez Extendido)
+      ia.py analiza, mientras piensas, la posición tras tus respuestas más probables (primero la que la
+      computadora esperaba); al jugar tú, responde antes. Ajustes → «La computadora piensa durante tu turno».
+  Resultado de la validación (SPRT, 1 s por jugada): todas juntas +121 Elo contra v5; tt_persistente +30,
+  poda_tardia +50; aspiración + SEE solas sobre esas dos -45, pero con las podas (futilidad, futilidad
+  inversa, razoring, contrajugada) el paquete gana +104 y quitarles aspiración + SEE resta 34. Desde v6 se
+  encienden las ocho por defecto; lmr_log (-4) y el término «enroque» (-10) quedan apagados. Para medir
+  contra v5: opciones=tt_persistente:0/aspiracion:0/futilidad:0/futilidad_inversa:0/razoring:0/poda_tardia:0/see:0/contrajugada:0
+
+Problemas tácticos y examen de la computadora
+  pypy3 extraer_problemas.py --tacticos texel_p3_bitacora.jsonl --procesos 22 --max 600
+      Busca donde la evaluación de la partida dio un salto (alguien no vio una táctica) y confirma con una
+      búsqueda a profundidad 5 que existe una jugada que gana al menos 2 peones, que es la única buena (la
+      segunda queda 1.5 peones por debajo) y que no se ve a profundidad 2. Los agrega a Juego/problemas.json
+      con su tema (captura, Catapulta en cadena, promoción, jaque, jugada tranquila). Tarda unos minutos.
+      Cada uno guarda su línea principal (6 medias jugadas). Para los creados antes sin ella:
+      pypy3 extraer_problemas.py --completar-lineas --procesos 22
+      Las posiciones ya comprobadas se anotan en Juego/problemas_revisados.json y no se repiten en la
+      siguiente búsqueda; --todo las revisa otra vez (por ejemplo, tras cambiar --ganancia o --margen).
+  pypy3 examen_tactico.py --procesos 22
+  pypy3 examen_tactico.py "tiempo=1,prof=30,nombre=v6" "tiempo=1,prof=30,parametros=texel_parametros.json,nombre=texel" --procesos 22
+      La computadora resuelve todos los problemas (mates y tácticos) con cada configuración y dice cuántos
+      resuelve, por tipo y tema, y cuáles resuelve solo una de ellas. En minutos: sirve de filtro antes de un
+      SPRT (no lo sustituye). Resultados en examen_tactico.jsonl.
+
+Dificultad de los problemas (dificultad_problemas.py)
+  pypy3 dificultad_problemas.py --procesos 8
+      Para cada problema táctico, la profundidad mínima con que la computadora encuentra la solución (de 1 a
+      6; 7 si no la encuentra); los mates en N quedan en 2N - 1. Se guarda en Juego/problemas.json y la app la
+      usa como Elo del problema (650 + 200 × profundidad). ~1-2 s por problema en un núcleo (unos 10 min los
+      495 tácticos con un proceso). Solo calcula los que no la tienen; --todos los recalcula.
+
+Libro de aperturas (libro_aperturas.py)
+  pypy3 libro_aperturas.py --procesos 8
+      Árbol de buenas jugadas desde la posición inicial: en cada posición, las que quedan a menos de 0.3 peones
+      de la mejor a profundidad 5. --ancho dice cuántas se siguen en cada media jugada (por defecto 3,3,2,2,1:
+      3 en las dos primeras, 2 en las dos siguientes y después solo la mejor), así las líneas son largas sin que
+      el árbol crezca sin control: 36 líneas de 16 medias jugadas (--plies, por defecto 16), unas 460 posiciones
+      de unos 3 s cada una (unos 3 min con 8 procesos). Continúa sobre lo ya calculado y guarda tras cada
+      posición; --plies 24 alarga las mismas líneas. Se guarda en Juego/libro_aperturas.json: la app juega de él
+      para variar sus aperturas y el explorador lo usa para reproducir las líneas. Las simulaciones y la
+      calibración no lo usan.
+
+Versión v7 (octubre de 2026)
+  Valores de las piezas, centralización, avance y pesos afinados con Texel (afinar_texel.py sobre 1000
+  partidas a profundidad 3): +74 Elo con el mismo tiempo (SPRT, 484 partidas). El cambio grande es el Peón
+  (de 1 a ~0.45 en la evaluación de la computadora; el reglamento no cambia); el resto se mueve poco.
+  Los valores de v6 están en parametros_v6.json (comparar.py: parametros=parametros_v6.json).
+  Tras v6 + v7 hay que recalibrar la escala de Elo: pasos/paso9_calibrar_elo.sh (4 tandas).
+
+Niveles altos (octubre de 2026)
+  Con la búsqueda v6 la profundidad 5 cuesta menos de 1 s en el medio juego (con 10 s llega a 6-9), así que
+  la escalera de calibrar_elo.py suma tres niveles: profundidad 6 (máx. 10 s), profundidad 7 (máx. 20 s) y
+  sin límite de profundidad con 30 s. Se eligieron midiendo la profundidad que alcanzan en partidas reales:
+  con 5 s la profundidad 6 no siempre se completaba y con 10 s la 7 se quedaba en 6 en el medio juego (una
+  primera versión con esos tiempos y 15 s para el último dio ~2950 y ~3020 Elo). --partidas es ahora el TOTAL por enfrentamiento: solo se juegan las
+  partidas que falten en el archivo, así que la calibración se puede retomar y, al agregar niveles, solo se
+  juegan sus enfrentamientos (pasos/paso10_niveles_altos.sh, 360 partidas, ~4-5 h; en tandas con
+  --partidas 10, 20, 30, 40).
+

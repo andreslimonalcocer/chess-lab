@@ -1,0 +1,48 @@
+INSTALAR EL AJEDREZ EN OTRA COMPUTADORA
+=======================================
+
+OPCIÓN A: PAQUETE AUTÓNOMO (no hace falta instalar Python ni PyPy)
+  python3 Instalador/empaquetar_autonomo.py --plataforma windows    (o mac-arm, mac-intel, linux)
+  python3 Instalador/empaquetar_autonomo.py --todas
+  Crea en dist/ un paquete por sistema: el juego con un Python portátil que incluye Tkinter
+  (python-build-standalone 3.12), PyPy 3.10 para la computadora, Pillow y todas las tablas de finales,
+  también las de dos piezas (~2.4 GB una vez descomprimido). Windows: .zip; macOS y Linux: .tar.xz (se abre
+  con doble clic), que comprime las tablas a la mitad. Armar cada paquete tarda varios minutos. Se arma desde cualquier sistema:
+  solo descarga (a Instalador/descargas/, verificando las sumas SHA-256 oficiales) y copia archivos.
+  En la otra computadora: descomprimir en una carpeta propia (Documentos, no «Archivos de programa») y abrir
+      Windows   Ajedrez.bat
+      macOS     Ajedrez.command (la primera vez: clic derecho > Abrir, porque no está firmado)
+      Linux     ajedrez.sh (usa el Python del sistema si tiene Tkinter, porque su Tk dibuja mejor las
+                letras; si no, el incluido)
+  El paquete de Linux se probó en esta computadora (juego, computadora con el PyPy incluido y las pruebas de
+  la interfaz con Tk 9). Los de Windows y macOS se revisaron por contenido, pero no se han abierto en esos
+  sistemas: conviene probarlos una vez.
+  Con --sin-tablas-dos se dejan fuera las tablas de dos piezas (paquetes de 70-100 MB); entonces se
+  construyen allá con Simulador/pasos/tablas_dos_piezas.sh (~45 min y ~9 GB de RAM).
+
+OPCIÓN B: PAQUETE CON INSTALADOR (usa el Python de la otra computadora)
+
+1) En esta computadora, crea el paquete:
+       python3 Instalador/empaquetar.py
+   Genera Ajedrez_AAAAMMDD.zip en la carpeta del proyecto (sin tus partidas ni tu perfil;
+   con --con-datos también los incluye). Incluye las tablas de finales de dos piezas (~420 MB comprimidas);
+   --sin-tablas-dos las deja fuera.
+2) Copia el .zip a la otra computadora, descomprímelo donde quieras dejar el juego y ejecuta el
+   instalador de su sistema, desde la carpeta Instalador:
+
+   Windows   doble clic en instalar_windows.bat
+             Busca Python (si falta, lo instala con winget), instala Pillow y crea accesos directos
+             «Ajedrez» en el escritorio y en el menú Inicio. También sirve Juego\jugar.bat.
+   macOS     en la Terminal: sh instalar_mac.sh
+             Necesita Python 3 con Tkinter (python.org o «brew install python python-tk»). Crea
+             Ajedrez.app en ~/Applications. También sirve Juego/jugar.command.
+   Linux     sh instalar_linux.sh
+             Comprueba Python y Tkinter (indica el paquete que falta), instala Pillow y crea el
+             acceso en el menú de aplicaciones.
+
+Requisitos: Python 3.8 o más reciente con Tkinter. Pillow es opcional (piezas más nítidas).
+PyPy es opcional pero recomendable: la computadora piensa varias veces más rápido. El juego lo
+usa si encuentra «pypy3» o «pypy» en el PATH (o en ~/.local/bin/pypy3).
+
+El juego guarda tus datos (partidas, perfil, ajustes) dentro de su carpeta Juego, así que debe
+estar en un lugar donde puedas escribir (tu carpeta personal, no «Archivos de programa»).

@@ -1,0 +1,33 @@
+Ajedrez Extendido - Juego de piezas digital
+
+Carpetas:
+  blancas/svg, blancas/png   piezas blancas
+  negras/svg,  negras/png    piezas negras
+
+Formatos:
+  SVG vectorial (viewBox 100x100), escalable a cualquier tamaño.
+  PNG de 256x256 px con fondo transparente.
+
+Nombres de archivo:
+  rey, dama, torre, alfil, caballo, arzobispo, canciller, catapulta, guardian, peon
+  Las formas extendidas llevan el sufijo _promocionado (base y estrella doradas).
+
+Figuras:
+  Arzobispo: copa en media luna con una bola (como la pieza 3D de Capablanca).  Canciller: sello de lacre.
+  Catapulta: brazo con cuchara.
+
+Diseños adicionales (los crea generar_disenos.py con ImageMagick, desde SVG):
+  estilos/clasico/     Rey, Dama, Torre, Alfil, Caballo y Peón clásicos (tipo Staunton).
+  estilos/capablanca/  Arzobispo (Alfil + Caballo) y Canciller (Torre + Caballo) como en Capablanca.
+  predisenos/          Piezas nuevas para el Laboratorio: Amazona, Unicornio, Camello, Elefante, Cañón,
+                       Dragón, Consejero, Saltamontes, Mago, Arquero, Centinela, Lanza, Llama, Rayo,
+                       Estrella, Comandante (yelmo), Diamante y Escudero (hombre).
+  estilos/diagrama/    Las ocho piezas como en los diagramas de los libros: el Arzobispo es un Caballo sobre el pie
+                       del Alfil y el Canciller, un Caballo sobre una Torre invertida. El Caballo y el Alfil siguen
+                       el juego de diagramas de Colin M. L. Burnett (Wikimedia Commons, licencia BSD de 3 cláusulas:
+                       Copyright (c) Colin M. L. Burnett; se permite usarlo y modificarlo conservando este aviso).
+  staunton1-3/, anterior/  Rey, Dama, Arzobispo y Canciller con silueta Staunton; el Arzobispo anterior.
+  partes/              Capas del diseñador del Laboratorio: cuerpos, remates, adornos, letras A–Z, base,
+                       base dorada y estrella. El juego las superpone con Tk (no necesita ImageMagick).
+  Para cambiar o añadir diseños: editar generar_disenos.py y ejecutar  python3 generar_disenos.py --muestra
+

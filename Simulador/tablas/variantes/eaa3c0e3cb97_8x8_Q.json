@@ -1,0 +1,15 @@
+{
+ "clave": "eaa3c0e3cb97_8x8_Q",
+ "variante": "Ajedrez clásico",
+ "piezas": [
+  "Q"
+ ],
+ "nombres": [
+  "Dama"
+ ],
+ "posiciones": 144508,
+ "ganadas": 1.0,
+ "media": 5.616657901292662,
+ "maximo": 10,
+ "segundos": 3
+}

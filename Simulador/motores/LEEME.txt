@@ -1,0 +1,6 @@
+Copias de versiones anteriores del motor, para medir con comparar.py cuánto mejora cada cambio.
+
+  original/   El motor antes de las optimizaciones de octubre de 2026 (valores v4, búsqueda clásica).
+              Sus reglas son idénticas a las del motor actual (comprobado en 3,000 posiciones).
+
+Ejemplo:  pypy3 comparar.py "ruta=motores/original,tiempo=1,prof=30" "tiempo=1,prof=30" --partidas 100 --procesos 22

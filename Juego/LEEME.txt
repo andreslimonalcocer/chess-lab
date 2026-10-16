@@ -1,0 +1,319 @@
+AJEDREZ - JUEGO CONTRA LA COMPUTADORA
+=====================================
+
+Cómo abrirlo
+  Desde el menú de aplicaciones: "Ajedrez".
+  Desde una terminal:  ./jugar.sh
+
+Ayuda e idioma
+  - F1 (o «Ayuda» en el menú) abre el manual en la sección de la pantalla actual. Al dejar el ratón sobre un
+    botón aparece qué hace.
+  - Idioma: español o inglés, en Ajustes. Se aplica a las pantallas y ventanas que se abran después. La
+    notación de las jugadas sigue la del reglamento (letras en español: R, D, T, A, C...), también en
+    inglés; el PDF del reglamento está en español. Los mensajes de los scripts del Simulador que aparecen
+    en algunas ventanas (búsqueda de problemas, simulación, construcción de tablas) quedan en español.
+  - La traducción está en idioma_en.py (texto en español → inglés) y se aplica en idioma.py, donde el texto
+    llega a la pantalla. Para probar que no falte nada: AJEDREZ_FALTANTES=faltantes.txt ./jugar.sh anota
+    los textos sin traducción.
+
+Menú principal
+  - Ajedrez clásico (8×8), Ajedrez Extendido (11×11), Ajedrez Capablanca (10×8, con
+    Arzobispo y Canciller) y Ajedrez gótico (10×8, otra posición inicial). Capablanca y gótico se
+    pueden jugar también en 10×10 (el interruptor de su tarjeta).
+  - Más variantes: Gran Ajedrez, Jano, Embajada, Ajedrez moderno, Courier, Shatranj, Makruk, Los
+    Álamos, Gardner, Berolina, Knightmate, Ajedrez de los saltamontes y Casi ajedrez (presets.py).
+  - Laboratorio: para crear variantes propias.
+  - En cada partida, el botón "← Menú" regresa al menú (o al Laboratorio, si la variante
+    viene de ahí).
+
+Aprende a jugar (menú principal o pestaña «Aprender» del Ajedrez Extendido)
+  - 16 lecciones (42 ejercicios), de lo simple a lo combinado: Rey (y enroque), Torre, Alfil, Dama (en
+    diagonal y en recto), Caballo (salto largo), Arzobispo, Canciller, Catapulta (captura a distancia dos y
+    salto extendido), Catapulta extendida (captura simple, doble y en cadena, y capturas de piezas
+    vecinas), Peón, Guardián (avance triple, captura diagonal, empuje, bloqueo de jaque y bloqueo de
+    saltos), captura al paso (del peón y del Guardián), extensión por captura, las piezas extendidas
+    (Dama, Torre, Alfil, Caballo, Arzobispo, Canciller, Peón y Guardián) y jaque mate.
+  - Todas las posiciones son posibles en una partida: una prueba automática (lecciones.comprobar) revisa
+    que el Rey que no mueve no empiece en jaque y que cada ejercicio tenga solución.
+  - Cada ejercicio tiene una posición, un objetivo (marcado en oro en el tablero) y se comprueba al
+    jugar; si no era eso, explica qué hiciste y vuelve a la posición. «Pista» selecciona la pieza
+    correcta; «La regla» abre el reglamento en esa sección. El avance se guarda en perfil.json.
+
+Dificultad
+  - Por defecto hay cinco niveles (Principiante a Experto). Cuando existe niveles_elo.json (lo crea
+    Simulador/calibrar_elo.py), la dificultad se elige en Elo: cada nivel combina profundidad,
+    tiempo e imprecisión, calibrados jugando la computadora contra sí misma.
+
+Partida nueva: rival y reloj
+  - Rival: la computadora u otra persona en este mismo equipo (dos jugadores; opcionalmente el
+    tablero se gira en cada turno). Las partidas entre dos personas no cuentan para el Elo.
+  - Reloj: sin reloj o de 3+2 a 60+30 (minutos + segundos de incremento por jugada). Quien se queda
+    sin tiempo pierde (tablas si al rival solo le queda el Rey). La computadora administra su tiempo:
+    nunca piensa más que su nivel y, con poco tiempo, juega más rápido. El reloj se detiene al
+    cambiar de pestaña y se guarda con la partida.
+
+Tablero
+  - Arrastra tus piezas para jugar (o usa clic en la pieza y clic en la casilla).
+  - Las piezas se deslizan al mover (se puede quitar en Ajustes).
+  - "Barra de evaluación" (casilla del panel): a la izquierda del tablero, quién va mejor según la
+    computadora. Contra la computadora usa su evaluación; con dos jugadores o en el entrenamiento
+    la calcula aparte; al reproducir, la de la bitácora o la del análisis.
+  - Revisar la partida mientras juegas: clic en una jugada de la lista (o ← →, Inicio) muestra esa
+    posición, con el tablero enmarcado en azul; Esc, Fin o un clic en el tablero vuelven a la actual.
+    La partida no cambia y la computadora puede seguir jugando mientras revisas.
+
+Ayuda durante la partida (se activa en Ajustes)
+  - «Pista»: la computadora busca unos segundos y marca en oro la pieza y la casilla de la mejor
+    jugada, con la idea que sigue.
+  - «¿Por qué?»: explica la última jugada de la computadora: qué hace, qué amenaza ahora, su
+    evaluación y la continuación que esperaba.
+  - Avisos (desactivados por defecto): marca en rojo tus piezas en peligro (atacadas sin defensa o por
+    una pieza de menos valor) y avisa si el rival amenaza mate en una.
+  - Una partida en la que usas una pista o «¿Por qué?», o recibes un aviso, no cuenta para tu Elo.
+
+Problemas (pestaña «Problemas» de cada variante)
+  - Posiciones de mate en 1, 2 o 3 de esa variante, sacadas de tus bitácoras, partidas y simulaciones. Da mate en
+    las jugadas indicadas; la computadora defiende lo mejor posible y avisa si tu jugada ya no
+    fuerza el mate. "Reintentar", "Ver solución" y "Siguiente problema". Los resueltos se marcan.
+  - Al elegir un problema (o un final) se ve su posición en un tablero a la derecha, con la última jugada
+    resaltada y quién juega.
+  - Problemas tácticos: posiciones donde una sola jugada gana material (captura, captura en cadena de la
+    Catapulta, extensión, jaque o jugada tranquila); se resuelven con esa jugada y luego el tablero muestra
+    la continuación (la idea completa de la táctica), que también aparece en «Ver solución». Filtro «Tipo»
+    para ver mates o tácticos.
+  - "Buscar problemas en mis bitácoras" (o Simulador/extraer_problemas.py) agrega nuevos; con «Tácticos
+    (más lento)», los tácticos. Cada búsqueda revisa solo posiciones que no se hayan revisado antes (quedan
+    anotadas en problemas_revisados.json), así que al repetirla avanza sobre partidas nuevas.
+
+  - «Mis errores»: al analizar una partida tuya (análisis normal o profundo), cada jugada tuya que perdió 1.5
+    peones o más se convierte en un problema: la posición antes del error. Vale la mejor jugada del análisis
+    o cualquier otra que pierda menos de 0.7 peones frente a ella (la computadora lo comprueba). Se guardan
+    en mis_problemas.json.
+  - Elo de problemas: cada problema tiene una dificultad (columna «Dificultad») y el primer intento de cada
+    uno mueve tu Elo de problemas (ver la solución antes de intentarlo cuenta como fallo). Orden «Para mi
+    nivel», «★ Problema del día» (uno sin resolver cercano a tu Elo, el mismo todo el día) y
+    «Estadísticas…» (por tema: intentados, resueltos al primer intento y resueltos).
+  - La dificultad sale de la profundidad con que la computadora resuelve el problema
+    (pypy3 Simulador/dificultad_problemas.py); mientras no se mida, se estima por el tipo de problema.
+
+Aperturas (pestaña «Aperturas» del Ajedrez Extendido)
+  - Explorador: en cada posición, las jugadas que se hicieron en las simulaciones, el espectador y tus
+    partidas, con cuántas veces, cómo terminaron y el porcentaje de puntos del bando que mueve. Doble clic
+    para avanzar. Desde una partida se abre en su posición actual.
+  - Reproducir: ⏮ ◀ ▶ recorren la línea (también con las flechas, Inicio y Fin) y «▶ Reproducir» (o la barra
+    espaciadora) la pasa sola, con la velocidad elegida. La línea completa se conserva al retroceder, así que
+    puedes volver al principio y verla de nuevo. Al terminarla puede seguir por la jugada más jugada, por la
+    mejor del libro o detenerse. «Abrir en el tablero» la lleva al tablero grande para reproducirla con sus
+    controles o analizarla.
+  - Las simulaciones empiezan con 4 medias jugadas al azar: en las primeras jugadas sus números dicen cómo
+    le fue a cada salida (columna «Al azar»), no lo que elegiría la computadora.
+  - Columna «Libro»: la evaluación del libro de aperturas de la computadora (pypy3
+    Simulador/libro_aperturas.py). Con el libro y la opción de Ajustes activada, la computadora juega de él
+    en las primeras jugadas (contra ti y en el espectador), eligiendo al azar entre sus mejores jugadas para
+    variar sus partidas.
+
+Finales (pestaña «Finales» de cada variante)
+  - Finales de Rey y una pieza (o dos, si se construyó su tabla) contra Rey solo, en el Ajedrez Extendido, el clásico,
+    Capablanca, gótico y las variantes del Laboratorio (con objetivo jaque mate). La computadora los juega
+    a la perfección con tablas exactas: da el mate más corto o, al defenderse, resiste lo máximo posible.
+    También las usa en sus partidas de esas variantes.
+  - Tablas del Ajedrez Extendido: pypy3 Simulador/finales.py --guardar-tablas. De las demás variantes: botón
+    «Construir las que faltan» en la ventana (segundos o pocos minutos; con «Incluir pares» también las de
+    dos piezas) o pypy3 Simulador/finales_variante.py clasico B+N.
+  - «Practicar: das mate» o «te defiendes»: tras cada jugada el panel dice si fue perfecta, cuánto alargó
+    (o acortó) el mate o si ya no se puede forzar. «Pista» muestra la mejor jugada y «Deshacer» la retira.
+    Al final compara tus jugadas con el mínimo posible.
+  - «Ver a la computadora dar mate»: juega los dos bandos; «Pausa», «Paso ▶» y «Reiniciar».
+  - Posición: con las casillas iniciales (Reyes en f1 y f11) o al azar con mate en 1-5, 6-12 o 13 o más.
+  - «Color del Alfil»: en los finales con un solo Alfil (Alfil y Caballo, por ejemplo) se elige si va por
+    casillas claras u oscuras; con dos Alfiles siempre van en colores distintos (con el mismo color no hay
+    mate).
+
+Exportar e importar en texto
+  - "Exportar…" en el panel: la posición actual (formato tipo FEN: filas de arriba abajo con «/»,
+    números para las casillas vacías, mayúsculas blancas, minúsculas negras, tipos de varias letras
+    entre paréntesis como (CE), apóstrofo para la forma extendida y «w»/«b» para el turno) y la
+    partida completa (encabezados y jugadas en la notación del juego). Copiar o guardar como .txt.
+  - En el editor del Entrenamiento: "Copiar posición" y "Pegar posición…".
+  - "Importar partida…" en el menú: pega el texto o abre un archivo; la partida se reproduce y se
+    puede analizar.
+
+Ajustes (menú principal)
+  - Piezas: el diseño de cada una (clic en la imagen): el del Ajedrez Extendido, el clásico (Rey, Dama, Torre,
+    Alfil, Caballo y Peón) o, para el Arzobispo y el Canciller, el de Capablanca (Alfil + Caballo y
+    Torre + Caballo). «Clásicas y de Capablanca» elige esos de una vez. Vale para todas las variantes.
+  - Tema del tablero para todas las variantes (o el de cada una), sonido y volumen, tamaño de la
+    interfaz (90 a 125 %, al volver a abrir el juego), animación de las piezas, barra de
+    evaluación al empezar y si la computadora piensa durante tu turno (en el Ajedrez Extendido responde antes:
+    mientras piensas, analiza tus respuestas más probables), las ayudas durante la partida y el libro de
+    aperturas. Se guardan en ajustes.json.
+
+Partidas guardadas y continuar
+  - Cada partida contra la computadora se guarda sola, jugada a jugada, en la carpeta partidas/
+    (mismo formato que las bitácoras). Si cierras la app a media partida, el menú principal ofrece
+    "▶ Continuar partida"; "Partidas guardadas" las lista para continuar, reproducir, analizar o
+    borrar.
+  - Filtros por variante, resultado (ganadas, perdidas, tablas, sin terminar), rival, fecha y búsqueda de
+    texto (jugadas, motivo); orden con un clic en el encabezado; resumen de resultados del filtro.
+  - Selecciona varias (Ctrl o Mayús) y «Exportar…» las guarda en un solo .txt (sin selección: todas las del
+    filtro). «Importar partida…» reconoce un archivo con varias y deja elegir cuál.
+
+Análisis de la partida
+  - Al terminar una partida (o desde "Partidas guardadas", o con "Analizar partida" al reproducir
+    cualquier bitácora) la computadora evalúa cada posición: gráfica de la evaluación, jugadas
+    marcadas con ?! (imprecisión, pierde 0.7 o más), ? (error, 1.5) y ?? (error grave, 3), y la
+    mejor jugada en cada caso. Clic en la gráfica o en la lista para ver esa posición.
+
+Tu Elo ("Mi perfil" en el menú)
+  - En las variantes con niveles calibrados en Elo (el Ajedrez Extendido, tras calibrar_elo.py), cada partida
+    terminada desde la posición inicial y sin "Deshacer" actualiza tu Elo (K = 40 las primeras 20
+    partidas, luego 20). El perfil muestra la evolución, tus resultados contra cada nivel y el nivel
+    sugerido, que además se preselecciona al empezar una partida nueva.
+
+Espectador (pestaña de cada variante)
+  - Dos computadoras juegan entre sí. Elige el nivel de cada una y la velocidad (segundos por
+    jugada) y pulsa "Nueva partida". "Pausa", "Paso ▶" para avanzar de a una jugada.
+  - Debajo se muestra la evaluación de la computadora en cada jugada (a favor de quién va y a
+    qué profundidad analizó, o si ve un mate).
+  - Cada partida se guarda en una bitácora en la carpeta bitacoras/ (una línea JSON por partida).
+
+Bitácoras
+  - "Abrir bitácora…" (en el Espectador o en el menú principal) reproduce una bitácora a velocidad
+    humana: las del modo espectador y las del simulador (simular.py --bitacora). Si el archivo tiene
+    varias partidas, se elige una. "◀ Atrás" y "Paso ▶" recorren la partida jugada a jugada.
+  - Desde la terminal: ./jugar.sh --bitacora archivo.jsonl [--partida N]
+
+Reglas
+  - "Ver reglas" en cada tarjeta del menú, el botón "Reglas" de la partida o "Ver reglas" en el
+    Laboratorio abren una ventana aparte (la partida sigue donde estaba).
+  - Cada pieza tiene su explicación y diagramas con los colores del reglamento: verde, se mueve
+    y captura; azul, solo se mueve; morado, condiciones especiales; rojo, captura; dorado,
+    añadido por la extensión; naranja, solo con la cadena de la Catapulta; gris, bloqueado por
+    un Guardián. Los diagramas de cada pieza se calculan con el motor, así que siempre coinciden
+    con las reglas reales (también para las piezas del Laboratorio).
+  - El Ajedrez Extendido incluye el reglamento oficial completo, los ejemplos principales del PDF y un botón
+    para abrir el PDF.
+
+Cómo jugar
+  - Haz clic en una de tus piezas para ver sus jugadas y luego en la casilla de destino.
+    Punto verde: casilla libre.  Aro verde: captura.  Naranja: cadena de la Catapulta.
+  - La captura en cadena de la Catapulta se anima salto por salto: la pieza sigue su recorrido en arcos y
+    cada pieza capturada desaparece al saltarla. Mientras sea la última jugada (o al revisarla), el
+    tablero muestra la ruta con una línea naranja y el número de cada salto.
+  - Si a una casilla se llega de varias formas (por ejemplo, al promocionar un peón en el
+    clásico), aparece un menú para elegir.
+  - En el Ajedrez Extendido, las piezas que pueden extenderse por captura o acumulación llevan una
+    estrella dorada. Selecciónala y pulsa el botón del panel; cuesta el turno.
+  - Ctrl+Z deshace tu última jugada, Ctrl+N empieza una partida nueva, Esc quita la selección.
+  - Sonidos al mover, al capturar y al dar jaque (casilla "Sonido" del panel para silenciarlos).
+  - En el Ajedrez Extendido, el "Marcador de puntos" suma el valor de las piezas capturadas por cada bando
+    (Apéndice A, según su forma al ser capturadas), muestra quién va arriba y cuántos puntos
+    dio la última captura. Es lo que decide el desempate por puntos (7.6).
+
+Entrenamiento (pestaña del panel o Ctrl+E), en todas las variantes
+  - Elige una pieza de la paleta y haz clic en el tablero para colocarla; clic otra vez o
+    clic derecho para quitarla. En el Ajedrez Extendido, "Forma extendida" coloca su versión dorada.
+  - Arrastra una pieza del tablero para moverla a otra casilla; si la sueltas fuera del
+    tablero, se quita.
+  - "Práctica rápida" arma una posición con los dos Reyes, la pieza elegida en el centro y
+    algunos peones rivales.
+  - Elige tu color y el nivel, y pulsa "Comenzar": tú haces la primera jugada y la
+    computadora responde. Cada bando necesita su Rey, y el Rey rival no puede estar en jaque.
+  - "Reiniciar entrenamiento" deja el editor como al principio (solo los dos Reyes);
+    "Reiniciar ejercicio" vuelve a la posición que armaste; "Editar posición" lleva al
+    editor la posición actual del tablero.
+  - El ejercicio no termina por material insuficiente, para poder practicar con una sola pieza.
+  - La partida y el entrenamiento se conservan por separado: puedes cambiar de pestaña y volver.
+
+Laboratorio
+  - Tablero: parte de una variante (cualquiera de las predefinidas, incluido el Ajedrez Extendido
+    completo, o de un tablero vacío o de una guardada), elige de 5 a 12 columnas y filas, y el estilo
+    de las casillas.
+  - Piezas: agrega piezas del catálogo («Del catálogo»: las clásicas y más de sesenta piezas mágicas)
+    o crea nuevas con «Nueva pieza», que abre un tablero vacío:
+      · Movimientos › Casillas: el pincel dice qué hace la casilla (mueve y captura, solo mueve o solo
+        captura), cómo llega (saltando, o por camino libre: las piezas en medio la bloquean) y su
+        condición (siempre, solo en su primer avance o solo para tapar un jaque); haz clic en el
+        tablero y otro clic con el mismo pincel la quita. Una casilla puede tener a la vez una marca
+        normal y otra con condición (el Guardián captura en diagonal y, si su Rey está en jaque, también
+        se mueve ahí). «Al marcar, también» repite la casilla en su reflejo o en sus 4 rotaciones u 8
+        simetrías. Arriba es adelante (para las negras se refleja). «Al saltar en línea recta, captura
+        las piezas adversarias que salta» hace que los saltos capturen lo saltado.
+      · Movimientos › Líneas rectas y diagonales: con un alcance o «(sin límite)», su modo, su condición,
+        si saltan las piezas en medio y si capturan las que saltan.
+      · Movimientos › Combinar con: suma los movimientos de otras piezas (el Arzobispo es Alfil + Caballo).
+      · Especiales: salto sobre una pieza (Saltamontes, León, Cañón, Langosta), salto sobre una fila de
+        piezas (la Catapulta), capturas en cadena (la Catapulta extendida), saltos repetidos (jinetes),
+        movimientos torcidos (Mao, Grifo...), empujes e intercambios (el Guardián).
+      · Propiedades y extensión: bloqueo de saltos (el aura del Guardián), avance como peón (regla de las
+        50 jugadas y captura al paso), puntos para el desempate; la forma extendida (otra pieza, que se
+        edita igual) y cuándo se extiende: al llegar a la última fila o tras capturar n piezas de su tipo
+        (solo una o una cada vez); y la conversión en otra pieza (cada n capturas de su tipo, como el
+        Peón que se convierte en Guardián).
+      · Catálogo de piezas mágicas (piezas_magicas.py): saltadores, jinetes, compuestas, saltadoras sobre
+        pantalla, torcidas, históricas, peones de fantasía y las del Ajedrez Extendido, cada una con su
+        imagen (Piezas/predisenos, de ../Piezas/generar_disenos.py) y sus movimientos.
+      · Imagen: «Elegir imagen…» (las del juego, los prediseños y tus diseños) o «Diseñar…»: arma una
+        imagen propia con un cuerpo, un remate (la cabeza), un adorno y una letra. Los diseños se guardan
+        en disenos/ y la variante lleva la receta, así que al exportarla se rehacen en otra computadora.
+      · Además: nombre, símbolo, versión dorada, tipo (normal, rey o peón), si enroca y su valor.
+    El tablero muestra con cuadros las casillas marcadas a mano y con puntos las de las líneas y las
+    piezas combinadas; verde mueve y captura, azul solo mueve, rojo solo captura. Las tablas de finales
+    solo se construyen para piezas «clásicas» (simétricas, que mueven y capturan igual).
+  - Reglas: objetivo (jaque mate o capturar al rey), qué pasa con el ahogado, enroque y
+    cuántas casillas avanza el rey, primer avance del peón (hasta 2, 3 o 4 casillas), captura al
+    paso, a qué piezas promociona el peón y en cuántas filas (opcional antes de la última; solo a
+    piezas ya capturadas), qué termina la partida en tablas y el desempate por puntos.
+  - Posición: coloca, arrastra o quita piezas; "Colocación automática" arma la fila de atrás
+    y los peones; "Blancas → negras" copia la posición en espejo.
+  - "Guardar" la deja en la carpeta laboratorio/; "Jugar" la abre como cualquier otra
+    variante, con partida y entrenamiento.
+  - "Exportar variante…" la guarda en un archivo .variante.json para compartirla; "Importar variante…"
+    abre una (la comprueba, le cambia el nombre si ya tienes una igual y la guarda).
+  - "Simular…" pone a la computadora a jugar la variante contra sí misma (autojuego: ¿tiene
+    ventaja un bando?, ¿cómo terminan las partidas?) o un duelo de pieza X contra pieza Y en la
+    misma casilla (¿cuál vale más?). Resultados y bitácoras en simulaciones/; "Ver partidas…" las
+    reproduce. Usa ../Simulador/simular_variante.py.
+
+Archivos
+  ajedrez.py      Menú principal, partida y entrenamiento (Tkinter).
+  laboratorio.py  El Laboratorio.
+  reglas.py       Ventana de reglas: textos y diagramas de cada variante.
+  variantes.py    Interfaz común de las variantes; las del Laboratorio se guardan en laboratorio/.
+  generico.py     Reglas y computadora de las variantes clásica, Capablanca, gótica, de «Más variantes»
+                  y del Laboratorio. Las del Ajedrez Extendido vienen de ../Simulador/motor.py y
+                  busqueda.py; el genérico también lo describe completo (para el Laboratorio) y da las
+                  mismas jugadas que el motor oficial.
+  presets.py      Variantes predefinidas del motor genérico: el Ajedrez Extendido, Capablanca y gótico
+                  en 10×10 y «Más variantes».
+  piezas_magicas.py  Catálogo de piezas mágicas del Laboratorio.
+  ia.py           La computadora, en un proceso aparte. Usa PyPy (~/.local/bin/pypy3) si está
+                  instalado; si no, Python normal.
+  interfaz.py     Colores, temas de tablero y estilos.
+  sonidos.py      Efectos de sonido; se crean en la carpeta sonidos/ (puedes reemplazar los WAV
+                  por otros con el mismo nombre).
+  partidas.py     Partidas guardadas (partidas/) y perfil con tu Elo (perfil.json).
+  analisis.py     Análisis de una partida con la computadora.
+  ventanas.py     Ventanas de "Partidas guardadas" y "Mi perfil".
+  simulacion.py   Ventana "Simular…" del Laboratorio.
+  ajustes.py      Ajustes generales (ajustes.json).
+  practica_finales.py  Finales con las tablas exactas: valor de una posición y jugada perfecta.
+  tablas_genericas.py  Tablas exactas de finales de las variantes del motor genérico (construcción y consulta).
+  textos.py       Posiciones y partidas en texto.
+  lecciones.py    Lecciones de «Aprende a jugar» (posiciones, objetivos y su comprobación).
+  ayudas.py       Avisos de piezas en peligro y amenazas de mate.
+  manual.py       Manual (F1) y descripciones de los botones.
+  editor_piezas.py  Editor de piezas del Laboratorio, galería de imágenes y diseñador.
+  disenos.py      Imágenes de las piezas: estilos, prediseños y diseños propios (en disenos/).
+  idioma.py       Traducción de la interfaz; idioma_en.py, el catálogo en inglés.
+  aperturas.py    Explorador de aperturas: estadísticas de las partidas por posición y libro.
+  libro_aperturas.json  Libro de aperturas (lo crea ../Simulador/libro_aperturas.py).
+  mis_problemas.json    Tus errores convertidos en problemas.
+  problemas.json  Problemas de mate (los crea ../Simulador/extraer_problemas.py).
+  jugar.bat       Lanzador para Windows; jugar.command, para macOS.
+  bitacoras/      Bitácoras de las partidas del modo espectador.
+  jugar.sh        Lanzador (acepta --bitacora ARCHIVO [--partida N]).
+
+Requisitos
+  Python 3 con Tkinter. Pillow es opcional (mejora el escalado de las piezas).
+  Para instalarlo en Windows, macOS u otro Linux: ver ../Instalador/LEEME.txt.

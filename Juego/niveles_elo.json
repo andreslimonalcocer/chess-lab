@@ -1,0 +1,77 @@
+{
+ "descripcion": "Niveles de la computadora calibrados en Elo con calibrar_elo.py (2026-10-11); el nivel más bajo vale 800 por convención.",
+ "niveles": [
+  {
+   "elo": 800,
+   "profundidad": 1,
+   "tiempo": 0,
+   "temperatura": 0.6
+  },
+  {
+   "elo": 1050,
+   "profundidad": 1,
+   "tiempo": 0,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 1350,
+   "profundidad": 2,
+   "tiempo": 0,
+   "temperatura": 0.4
+  },
+  {
+   "elo": 1650,
+   "profundidad": 2,
+   "tiempo": 0,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 1750,
+   "profundidad": 3,
+   "tiempo": 0,
+   "temperatura": 0.3
+  },
+  {
+   "elo": 1950,
+   "profundidad": 3,
+   "tiempo": 0,
+   "temperatura": 0.1
+  },
+  {
+   "elo": 2100,
+   "profundidad": 3,
+   "tiempo": 0,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 2350,
+   "profundidad": 4,
+   "tiempo": 0,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 2650,
+   "profundidad": 5,
+   "tiempo": 10,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 2850,
+   "profundidad": 6,
+   "tiempo": 10,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 3050,
+   "profundidad": 7,
+   "tiempo": 20,
+   "temperatura": 0.0
+  },
+  {
+   "elo": 3250,
+   "profundidad": 30,
+   "tiempo": 30,
+   "temperatura": 0.0
+  }
+ ]
+}

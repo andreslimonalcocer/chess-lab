@@ -1,0 +1,17 @@
+{
+ "clave": "de6ca011ac38_8x8_B+N",
+ "variante": "Ajedrez clásico",
+ "piezas": [
+  "B",
+  "N"
+ ],
+ "nombres": [
+  "Alfil",
+  "Caballo"
+ ],
+ "posiciones": 10875504,
+ "ganadas": 0.9950972387118795,
+ "media": 24.679206341344777,
+ "maximo": 33,
+ "segundos": 187
+}

@@ -1,0 +1,53 @@
+AJEDREZ EXTENDIDO - PIEZAS PARA IMPRESIÓN 3D
+=========================================
+
+Contenido
+  stl/        Un archivo por pieza, listo para el laminador (Cura, PrusaSlicer, Bambu Studio...).
+  fuente/     Diseño editable en OpenSCAD (ajedrez11x11.scad).
+  vista_previa.png
+
+Medidas (tamaño de torneo)
+  Escala tomada de un juego de torneo estándar (Rey de unos 96 mm).
+  Todas las piezas tienen una base de 39 mm de diámetro, pensada para casillas de 55 mm:
+  el área de juego mide 60.5 x 60.5 cm (unos 66 cm con el marco).
+  Alturas: Rey 97 mm, Dama 85, Alfil 80, Canciller 80, Catapulta 76, Arzobispo 73,
+  Caballo 70, Torre 66, Guardián 64, Peón 58.
+  Anillo de extensión: 49 mm de diámetro exterior y 8 mm de alto.
+  Para otro tamaño, cambia ESCALA en ajedrez11x11.scad y vuelve a exportar
+  (1.0 = juego compacto con casillas de 40 mm). Así la holgura del anillo se mantiene;
+  no escales los STL en el laminador, porque la holgura cambiaría.
+
+Cantidades por jugador (imprimir dos juegos: uno blanco y uno negro)
+  Rey 1, Dama 1, Torre 2, Alfil 2, Caballo 2, Arzobispo 1, Canciller 1,
+  Catapulta 1, Guardián 5, Peón 8.
+  De los 5 Guardianes, 3 empiezan en el tablero y 2 son de reserva: cuando un peón
+  se convierte en Guardián (cada 4 peones adversarios capturados), se retira el peón
+  y se coloca un Guardián de reserva en su casilla.
+  Total por jugador: 24 piezas. Total del juego: 48 piezas.
+
+Anillo de extensión
+  Imprímelo en filamento dorado (por ejemplo, PLA seda dorado). Es un único modelo
+  que sirve para todas las piezas: al extenderse, la pieza se coloca dentro del anillo.
+  Imprime 29 anillos, compartidos por ambos jugadores. Es el máximo teórico de piezas
+  extendidas al mismo tiempo en una partida:
+    - 7 piezas mayores: en cada tipo (Dama, Torre, Alfil, Caballo, Arzobispo, Canciller
+      y Catapulta) solo un bando puede tenerla extendida, porque para extenderla
+      hay que capturar la equivalente del rival.
+    - 22 peones y Guardianes: los 11 de cada bando pueden extenderse al llegar a la
+      última fila sin depender de capturas.
+  Si el ajuste queda muy justo o muy suelto, cambia HOLGURA en ajedrez11x11.scad
+  (0.35 mm por defecto) y vuelve a exportar el anillo.
+
+Ajustes de impresión sugeridos
+  Material: PLA. Capa: 0.12 a 0.2 mm. Relleno: 15 a 20 %. Paredes: 3.
+  Imprime todas las piezas de pie, sobre su base.
+  Soportes:
+    Sin soportes: Rey, Dama, Torre, Alfil, Canciller, Peón, anillo.
+    Con soportes (solo desde la cama): Caballo, Arzobispo, Catapulta y Guardián
+    (cabeza del caballo, media luna, brazo y cuchara, y la punta inferior del escudo).
+  Opcional: pega fieltro en la base para que no rayen el tablero.
+
+Exportar de nuevo desde OpenSCAD
+  openscad -o rey.stl -D 'pieza="rey"' ajedrez11x11.scad
+  Valores de pieza: rey, dama, torre, alfil, caballo, arzobispo, canciller,
+  catapulta, guardian, peon, anillo.
